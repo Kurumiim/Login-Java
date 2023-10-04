@@ -89,9 +89,9 @@ public class LoginForm extends JDialog {
 
         if (user != null){
             System.out.println(" Sucesso na autenticação para : " + user.name);
-            System.out.println("           Email : " + user.name);
-            System.out.println("           Phone : " + user.name);
-            System.out.println("           Address : " + user.name);
+            System.out.println("           Email : " + user.email);
+            System.out.println("           Phone : " + user.phone);
+            System.out.println("           Address : " + user.address);
         }else {
             System.out.println("Autenticação cancelada");
         }
