@@ -128,7 +128,7 @@
             </constraints>
             <properties>
               <font name="Bookman Old Style" size="20" style="1"/>
-              <text value="Sniper"/>
+              <text value="SOS"/>
             </properties>
           </component>
           <component id="545e8" class="javax.swing.JLabel">

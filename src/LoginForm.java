@@ -11,7 +11,7 @@ public class LoginForm extends JDialog {
     private JButton btnCancel;
     private JPanel loginPanel;
 
-    public LoginForm(JFrame parent){
+    public LoginForm(JFrame parent) {
         super(parent);
         setTitle("Login");
         setContentPane(loginPanel);
@@ -25,12 +25,11 @@ public class LoginForm extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String email = tfEmail.getText();
                 String password = String.valueOf(pfPassword.getPassword());
-                user = getAuthenticatedUser(email,password);
+                user = getAuthenticatedUser(email, password);
 
-                if(user != null){
+                if (user != null) {
                     dispose();
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(LoginForm.this,
                             "Email ou Password invalido",
                             "Tentar novamente",
@@ -46,15 +45,17 @@ public class LoginForm extends JDialog {
         });
         setVisible(true);
     }
+
     public User user;
-    private User getAuthenticatedUser(String email, String password){
+
+    private User getAuthenticatedUser(String email, String password) {
         User user = null;
 
-        final String DB_URL = "jbdc:postgresql://localhost";
-        final String USERNAME = "lucas";
+        final String DB_URL = "jdbc:postgresql://localhost:5432/sosdb";
+        final String USERNAME = "postgres";
         final String PASSWORD = "2221";
 
-        try{
+        try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
             Statement stmt = conn.createStatement();
@@ -65,7 +66,7 @@ public class LoginForm extends JDialog {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 user = new User();
                 user.name = resultSet.getString("name");
                 user.email = resultSet.getString("email");
@@ -84,16 +85,22 @@ public class LoginForm extends JDialog {
     }
 
     public static void main(String[] args) {
-        LoginForm loginForm = new LoginForm(null);
-        User user = loginForm.user;
+        try {
+            LoginForm loginForm = new LoginForm(null);
+            User user = loginForm.user;
 
-        if (user != null){
-            System.out.println(" Sucesso na autenticação para : " + user.name);
-            System.out.println("           Email : " + user.email);
-            System.out.println("           Phone : " + user.phone);
-            System.out.println("           Address : " + user.address);
-        }else {
-            System.out.println("Autenticação cancelada");
+            if (user != null) {
+                System.out.println(" Sucesso na autenticação para : " + user.name);
+                System.out.println("           Email : " + user.email);
+                System.out.println("           Phone : " + user.phone);
+                System.out.println("           Address : " + user.address);
+            } else {
+                System.out.println("Autenticação cancelada");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro durante a autenticação: " + e.getMessage());
         }
     }
 }
+
